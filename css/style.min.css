@@ -1096,7 +1096,33 @@ nav.popup-menu .close-menu-btn img {
   width: 36px;
 }
 .hidden-block {
-  display: none;
+  display: none !important;
+}
+.switchers {
+  display: flex;
+  position: absolute;
+  top: 380px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.dot {
+  background-color: #fff;
+  width: 25px;
+  height: 5px;
+  border-radius: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.dot-active {
+  background-color: yellow !important;
+}
+.photoGallery__prev {
+  left: 0 !important;
+  top: 182px !important;
+}
+.photoGallery__next {
+  right: 0 !important;
+  top: 182px !important;
 }
 .head-slider {
   height: 541px;
