@@ -26,9 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const showPopup = document.querySelector('.open-popup'),
         freeVisit = document.getElementById('free_visit_form'),
         callBackBtn = document.querySelector('.callback-btn'),
-        callBack = document.getElementById('callback_form'),
-        fixedGift = document.querySelector('.fixed-gift'),
-        gift = document.getElementById('gift');
+        callBack = document.getElementById('callback_form');
 
   showPopup.addEventListener('click', () => {
     freeVisit.style.display = 'block';
@@ -38,13 +36,18 @@ document.addEventListener('DOMContentLoaded', () => {
     callBack.style.display = 'block';
   });
 
-  fixedGift.addEventListener('click', () => {
-    gift.style.display = 'block';
-    fixedGift.classList.add('hidden-block');
-  });
+  if (page === 'index.html') {
+    const fixedGift = document.querySelector('.fixed-gift'),
+          gift = document.getElementById('gift');
+    
+    fixedGift.addEventListener('click', () => {
+      gift.style.display = 'block';
+      fixedGift.classList.add('hidden-block');
+    });
+  }
 
   
-  //закрываем поп-ап записаться на визит
+  //закрываем поп-апы
   const body = document.querySelector('body');
 
   body.addEventListener('click', (event) => {
@@ -56,5 +59,38 @@ document.addEventListener('DOMContentLoaded', () => {
       gift.style.display = 'none';
     }
   })
+
+  //основной слайдер
+  const slider = () => {
+    const mainSlider = document.querySelector('.main-slider'),
+          slide = mainSlider.querySelectorAll('.slide');
+
+    let currentSlide = 0;
+
+    const prevSlide = (elem, index, strClass) => {
+      elem[index].classList.add(strClass);
+    };
+
+    const nextSlide = (elem, index, strClass) => {
+      elem[index].classList.remove(strClass);
+    };
+
+    const autoPlaySlide = () => {
+      prevSlide(slide, currentSlide, 'hidden-block');
+      currentSlide++;
+      if (currentSlide >= slide.length) {
+        currentSlide = 0;
+      }
+      nextSlide(slide, currentSlide, 'hidden-block');
+      };
+
+      const startSlide = () => {
+        setInterval(autoPlaySlide, 2000);
+      }
+
+      startSlide();
+  };
+
+  slider();
     
 });
