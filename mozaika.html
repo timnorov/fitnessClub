@@ -385,6 +385,7 @@
               <p class="input-text">
                 <input
                   name="name"
+                  class="name"
                   type="text"
                   required
                   placeholder="Ваше имя..."
@@ -395,6 +396,7 @@
                   type="tel"
                   name="phone"
                   id="callback_form-phone"
+                  class="phone"
                   required
                   placeholder="Ваш номер телефона..."
                 />
@@ -422,21 +424,28 @@
       <div class="gallery-bg">
         <div class="wrapper">
           <div class="gallery-slider">
-            <div class="slide">
+            <div class="slide gallery-slides gallery-slides-active">
               <img src="images/gallery/photo1.jpg" alt="" />
             </div>
-            <div class="slide">
+            <div class="slide gallery-slides">
               <img src="images/gallery/photo2.jpg" alt="" />
             </div>
-            <div class="slide">
+            <div class="slide gallery-slides">
               <img src="images/gallery/photo3.jpg" alt="" />
             </div>
-            <div class="slide">
+            <div class="slide gallery-slides">
               <img src="images/gallery/photo4.jpg" alt="" />
             </div>
-            <div class="slide">
+            <div class="slide gallery-slides">
               <img src="images/gallery/photo5.jpg" alt="" />
             </div>
+            <button class="glo-slider__prev photoGallery__prev">
+              <i class="fa fa-chevron-left"></i>
+            </button>
+            <button class="glo-slider__next photoGallery__next">
+              <i class="fa fa-chevron-right"></i>
+            </button>
+            <ul class="switchers"></ul>
           </div>
         </div>
       </div>
@@ -542,11 +551,18 @@
               name="form_name"
               value=" Записаться на визит"
             />
-            <input name="name" type="text" required placeholder="Ваше имя..." />
+            <input
+              name="name"
+              class="name"
+              type="text"
+              required
+              placeholder="Ваше имя..."
+            />
             <input
               type="tel"
               name="phone"
               id="phone"
+              class="phone"
               required
               placeholder="Ваш номер телефона..."
             />
@@ -630,6 +646,7 @@
                       type="tel"
                       name="phone"
                       id="callback_footer_form-phone"
+                      class="phone"
                       required=""
                       placeholder="Ваш номер телефона..."
                     />
@@ -716,6 +733,7 @@
             <p class="input-text">
               <input
                 name="name"
+                class="name"
                 type="text"
                 required
                 placeholder="Ваше имя..."
@@ -726,6 +744,7 @@
                 type="tel"
                 name="phone"
                 id="callback_form1-phone"
+                class="phone"
                 required
                 placeholder="Ваш номер телефона..."
               />
@@ -759,6 +778,7 @@
             <p class="input-text">
               <input
                 name="name"
+                class="name"
                 type="text"
                 required
                 placeholder="Ваше имя..."
@@ -769,6 +789,7 @@
                 type="tel"
                 name="phone"
                 id="callback_form2-phone"
+                class="phone"
                 required
                 placeholder="Ваш номер телефона..."
               />
@@ -801,7 +822,7 @@
         </div>
       </div>
     </div>
-
+    <script src="script/maskPhone.js"></script>
     <script src="script/script.js"></script>
     <script src="script/sliderCarousel.js"></script>
     <script>

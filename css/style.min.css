@@ -151,6 +151,7 @@ hr {
 input,
 select {
   vertical-align: middle;
+  outline: none;
 }
 pre {
   white-space: pre;
@@ -1105,6 +1106,24 @@ nav.popup-menu .close-menu-btn img {
   left: 50%;
   transform: translateX(-50%);
 }
+.gallery-slider {
+  max-width: 915px !important;
+  height: 412px;
+  position: relative;
+  padding: 0 !important;
+}
+.gallery-slides-active {
+  /* display: block !important; */
+  opacity: 1 !important;
+  transition: opacity 0.5s !important;
+  position: absolute;
+}
+.gallery-slides {
+  /* display: none; */
+  opacity: 0;
+  transition: opacity 0.5s;
+  position: absolute;
+}
 .dot {
   background-color: #fff;
   width: 25px;
@@ -1112,6 +1131,7 @@ nav.popup-menu .close-menu-btn img {
   border-radius: 5px;
   margin-left: 2px;
   margin-right: 2px;
+  cursor: pointer;
 }
 .dot-active {
   background-color: yellow !important;
@@ -1123,6 +1143,11 @@ nav.popup-menu .close-menu-btn img {
 .photoGallery__next {
   right: 0 !important;
   top: 182px !important;
+}
+.sticky {
+  position: fixed;
+  top: 0px;
+  z-index: 1010;
 }
 .head-slider {
   height: 541px;
@@ -1140,7 +1165,7 @@ nav.popup-menu .close-menu-btn img {
   bottom: 0;
   top: 0;
   z-index: 200;
-  width: 52vw;
+  width: 782px;
   max-width: 979px;
   display: -moz-flex;
   display: -ms-flex;
@@ -1829,7 +1854,6 @@ footer .footer-bottom .right .socials .social-icon:hover a {
   z-index: 200;
   font-size: 28px;
   color: #1e1c34;
-  display: block;
   width: 35px;
   height: 35px;
   background-color: #ffd11a;
@@ -1924,9 +1948,7 @@ footer .footer-bottom .right .socials .social-icon:hover a {
   padding: 5px;
   height: 45px;
   border-radius: 22px;
-  border: 1px solid #ffd11a;
   padding-left: 18px;
-  border: none;
 }
 .popup .form-content textarea {
   margin-top: 10px;

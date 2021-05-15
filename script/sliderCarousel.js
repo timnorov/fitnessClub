@@ -58,15 +58,15 @@ const services = document.getElementById('services');
         }
         .glo-slider{
           overflow: hidden !important;
-          padding-left: 0 !important;
-          padding-right: 0 !important;
+          padding-left: 9px !important;
+          padding-right: 9px !important;
+          position: relative !important;
         }
         .glo-slider__wrap{
           transition: transform 0.5s !important;
           will-change: transform;
           padding-left: 0 !important;
           padding-right: 0 !important;
-          position: relative !important;
         }
         .glo-slider__item{
           flex: 0 0 ${this.options.widthSlide}% !important;
@@ -85,7 +85,6 @@ const services = document.getElementById('services');
     prevSlider(){
       if (this.options.infinity || this.options.position > 0) {
         --this.options.position;
-        console.log(this.options.position);
         if (this.options.position < 0) {
           this.options.position = this.slides.length - this.slidesToShow
         }
@@ -96,7 +95,6 @@ const services = document.getElementById('services');
     nextSlider(){
       if (this.options.infinity || this.options.position < this.slides.length - this.slidesToShow) {
         ++this.options.position;
-        console.log(this.options.position);
          if (this.options.position > this.slides.length - this.slidesToShow) {
            this.options.position = 0;
          }
@@ -127,8 +125,8 @@ const services = document.getElementById('services');
         }
         .glo-slider__next {
           position: absolute;
-          top: 185px;
-          right: 40px;
+          top: 130px;
+          right: 0px;
           border-radius: 50%;
           background-color: #efd308;
           width: 20px;
@@ -139,8 +137,8 @@ const services = document.getElementById('services');
         }
         .glo-slider__prev {
           position: absolute;
-          top: 185px;
-          left: 40px;
+          top: 130px;
+          left: 0px;
           border-radius: 50%;
           background-color: #efd308;
           width: 20px;
