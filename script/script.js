@@ -371,5 +371,56 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     })()
 
+  //калькулятор
+  const clubCards = document.getElementById('card_order'),
+        oneMonth = document.getElementById('m1'),
+        sixMonth = document.getElementById('m2'),
+        nineMonth = document.getElementById('m3'),
+        twelveMonth = document.getElementById('m4'),
+        clubMozaika = document.getElementById('card_leto_mozaika'),
+        clubSchelkovo = document.getElementById('card_leto_schelkovo'),
+        promoCode = document.getElementById('promocode'),
+        totalPrice = document.getElementById('price-total');
+  let currentPrice;
+
+  clubCards.addEventListener('click', (event) => {
+    let target = event.target;
+    if (target.matches('#m1') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && oneMonth.checked === true){
+      promoCode.value = '';
+      totalPrice.innerHTML = '1999';
+    } else if (target.matches('#m2') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && sixMonth.checked === true) {
+      promoCode.value = '';
+      totalPrice.innerHTML = '9990';
+    } else if (target.matches('#m3') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && nineMonth.checked === true) {
+      promoCode.value = '';
+      totalPrice.innerHTML = '13900';
+    } else if (target.matches('#m4') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && twelveMonth.checked === true) {
+      promoCode.value = '';
+      totalPrice.innerHTML = '19900';
+    } 
+
+    if (target.matches('#m1') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && oneMonth.checked === true){
+      promoCode.value = '';
+      totalPrice.innerHTML = '2999';
+    } else if (target.matches('#m2') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && sixMonth.checked === true) {
+      promoCode.value = '';
+      totalPrice.innerHTML = '14990';
+    } else if (target.matches('#m3') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && nineMonth.checked === true) {
+      promoCode.value = '';
+      totalPrice.innerHTML = '21990';
+    } else if (target.matches('#m4') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && twelveMonth.checked === true) {
+      promoCode.value = '';
+      totalPrice.innerHTML = '24990';
+    }
+    currentPrice = totalPrice.innerHTML; 
+  });
     
+    promoCode.addEventListener('input', () => {
+    if (promoCode.value === 'ТЕЛО2020') {
+      totalPrice.innerHTML = currentPrice - Math.ceil(totalPrice.innerText * 0.3) ;
+    } else if (promoCode !== 'ТЕЛО2020') {
+      totalPrice.innerHTML = currentPrice;
+    }
+  });
+
 });
