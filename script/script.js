@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname,
         page = path.split("/").pop(),
         clubSelect = document.querySelector('.club-select'),
-        chooseClub = document.querySelector('.clubs-list'),
         clubsShow = document.querySelector('.clubs-show');
 
     if (page === 'index.html') {
@@ -52,7 +51,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   body.addEventListener('click', (event) => {
     let target = event.target;
-    if (target.classList.contains('overlay') || target.classList.contains('close_icon') || target.classList.contains('close-btn')) {
+    if (target.classList.contains('overlay') || target.classList.contains('close_icon') || target.classList.contains('close-btn') || target.classList.contains('btn-ok1') || target.classList.contains('btn-ok2')) {
+      statusMess1.classList.add('hidden-block');
+      statusMess2.classList.add('hidden-block');
+      document.getElementById('form2').style.display = 'block';
+      document.getElementById('form2').reset();
+      document.getElementById('form1').style.display = 'block';
+      document.getElementById('form1').reset();
+      freeVisitName.classList.remove('success');
+      freeVisitPhone.classList.remove('success');
+      callBackName.classList.remove('success');
+      callBackPhone.classList.remove('success');      
       freeVisit.style.display = 'none';
       callBack.style.display = 'none';
       gift.style.display = 'none';
@@ -194,11 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
   //валидация форм
   const name = document.querySelectorAll('.name'),
-        phone = document.querySelectorAll('.phone'),
-        freeVisitName = document.querySelector('.free-visit-name'),
-        freeVisitPhone = document.querySelector('.free-visit-phone'),
-        freeVisitCheckbox = document.getElementById('check2'),
-        freeVisitButton = document.querySelector('.btn-free-visit');
+        freeVisitName = document.getElementById('free-visit-name'),
+        freeVisitPhone = document.getElementById('callback_form2-phone'),
+        callBackName = document.getElementById('callback_form1-name'),
+        callBackPhone = document.getElementById('callback_form1-phone');
 
     name.forEach((item) => {
       item.addEventListener('input', () => {
@@ -223,24 +231,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
-  
-
     maskPhone('.phone');
 
   //отправка данных форм
-  const sendForm = () => {
-        const errorMessage = 'Что-то пошло не так...',
-        successMessage = 'Спасибо! Мы скоро с Вами свяжемся!',
-        agreementMessage = 'Необходимо согласиться на обработку данных';
+  const statusText1 = document.querySelector('.status-text1'),
+        statusText2 = document.querySelector('.status-text2'),
+        statusMess1 = document.querySelector('.status-message-form1'),
+        statusMess2 = document.querySelector('.status-message-form2');
 
-        const form = document.getElementById('form2');
-
+    const sendForm = () => {
+          const errorMessage = 'Извините, произошла ошибка. Повторите попытку позже.',
+          successMessage = 'Сообщение отправлено. Наши менеджеры свяжутся с Вами в ближайшее время.',
+          forms = document.querySelectorAll('form');
+          
         const statusMessage = document.createElement('div');
-        statusMessage.style.cssText = 'font-size: 1.5rem; color: #fff';
+        statusMessage.style.cssText = 'font-size: 1rem; margin-top: 5px; color: #d93025';
 
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            form.appendChild(statusMessage);
+        forms.forEach((item) => {
+          
+
+          let name = item.querySelector('.name'),
+                          phone = item.querySelector('.phone'),
+                          checkbox = item.querySelector('.checkbox');
+
+        item.addEventListener('submit', (event) => {
+            event.preventDefault();            
+
+            if (name.classList.contains('success') && phone.classList.contains('success') && checkbox.checked === false) {
+              item.appendChild(statusMessage);
+              statusMessage.textContent = 'Необходимо согласиться на обработку данных';
+            } else {
+              item.appendChild(statusMessage);
             statusMessage.innerHTML = `  
             <div class='sk-fading-circle'>
                 <div class='sk-circle sk-circle-1'></div>
@@ -257,26 +278,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class='sk-circle sk-circle-12'></div>
             </div>
             `;
-            const formData = new FormData(form);
+            const formData = new FormData(item);
         
             postData(formData)
                 .then((response) => {
                     if (response.status !== 200) {
                         throw new Error('status error not 200')
                     }
-                    statusMessage.textContent = successMessage;
-                    form.reset();
-                    setTimeout(() => {
-                        form.removeChild(statusMessage)
-                    }, 5000);
+                    if (item.classList.contains('form1')) {
+                      item.style.display = 'none';
+                      item.removeChild(statusMessage)
+                      statusMess1.classList.remove('hidden-block');
+                      statusText1.textContent = successMessage;
+                    } else if (item.classList.contains('form2')) {
+                      item.style.display = 'none';
+                      item.removeChild(statusMessage)
+                      statusMess2.classList.remove('hidden-block');
+                      statusText2.textContent = successMessage;
+                    } else {
+                      statusMessage.textContent = successMessage;
+                      // statusMessage.textContent = '';
+                      item.reset();  
+                    }
+
                 })
                 .catch((error) => {
-                    statusMessage.textContent = errorMessage;
+                    if (item.classList.contains('form1')) {
+                      item.style.display = 'none';
+                      statusMess1.classList.remove('hidden-block');
+                      statusText1.textContent = errorMessage;
+                    } else if (item.classList.contains('form2')) {
+                      item.style.display = 'none';
+                      statusMess2.classList.remove('hidden-block');
+                      statusText2.textContent = errorMessage;
+                    } else {
+                      statusMessage.textContent = errorMessage;
+                      // statusMessage.textContent = '';
+                      item.reset();  
+                    }
                     console.error(error);
-                    setTimeout(() => {
-                        form.removeChild(statusMessage)
-                    }, 5000);
                 });
+            }
+            
         });
 
         const postData = (formData) => {
@@ -288,7 +331,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData
             });
         };
+        })
     };
+    sendForm();
+    // freeVisitButton.addEventListener('click', () => {
+    //   if(freeVisitName.classList.contains('success') && freeVisitPhone.classList.contains('success') && freeVisitCheckbox.checked === true) {
+    //     sendForm();
+    //   } else if (freeVisitName.classList.contains('success') && freeVisitPhone.classList.contains('success') && freeVisitCheckbox.checked === false) {
+    //     console.log('no');
+    //     const form2 = document.getElementById('form2');
+
+    //     const statusMessage = document.createElement('div');
+    //     statusMessage.style.cssText = 'font-size: 1rem; margin-top: 5px; color: #fff';
+
+    //     form2.appendChild(statusMessage);
+    //     statusMessage.textContent = 'Необходимо согласиться на обработку данных';
+    //     setTimeout(() => {
+    //       statusMessage.textContent = '';
+    //     }, 2000);
+    //   }
+    // });
+    
 
     //вызов мобильного меню
 
