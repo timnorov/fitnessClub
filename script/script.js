@@ -1,66 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
-  //открываем меню Выбрать клуб
-  const path = window.location.pathname,
-        page = path.split("/").pop(),
-        clubSelect = document.querySelector('.club-select'),
-        clubsShow = document.querySelector('.clubs-show');
-
-        clubsShow.classList.add('hidden-block');
-  
-    clubSelect.addEventListener('click', (event) => {
-      let target = event.target;
-
-      if (target.classList.contains('choose-club')) {
-      clubsShow.classList.toggle('hidden-block');
-      }
-
-    });
-
-  //открываем поп-ап окна
-
-  const showPopup = document.querySelector('.open-popup'),
-        freeVisit = document.getElementById('free_visit_form'),
-        callBackBtn = document.querySelector('.callback-btn'),
-        callBack = document.getElementById('callback_form');
-
-    showPopup.addEventListener('click', () => {
-      freeVisit.style.display = 'block';
-  });
-
-  callBackBtn.addEventListener('click', () => {
-    callBack.style.display = 'block';
-  });
-
-  const fixedGift = document.querySelector('.fixed-gift'),
-        gift = document.getElementById('gift');
-  
-  //закрываем поп-апы
-  document.addEventListener('click', (event) => {
-    let target = event.target;
-    if (target.classList.contains('overlay') || target.classList.contains('close_icon') || target.classList.contains('close-btn') || target.classList.contains('btn-ok1') || target.classList.contains('btn-ok2')) {
-      statusMess1.classList.add('hidden-block');
-      statusMess2.classList.add('hidden-block');
-      document.getElementById('form2').style.display = 'block';
-      document.getElementById('form2').reset();
-      document.getElementById('form1').style.display = 'block';
-      document.getElementById('form1').reset();
-      freeVisitName.classList.remove('success');
-      freeVisitPhone.classList.remove('success');
-      callBackName.classList.remove('success');
-      callBackPhone.classList.remove('success');      
-      freeVisit.style.display = 'none';
-      callBack.style.display = 'none';
-      thanksModal.style.display = 'none';
-      badConnection.style.display = 'none';
-      gift.style.display = 'none';
-    } else if (target.classList.contains('gift-icon')){
-      gift.style.display = 'block';
-      fixedGift.classList.add('hidden-block');
-    }
-  })
-
   //основной слайдер
   const slider = () => {
     const mainSlider = document.querySelector('.main-slider'),
@@ -91,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       startSlide();
   };
-
   slider();
 
   //слайдер галереи
@@ -191,56 +130,171 @@ document.addEventListener('DOMContentLoaded', () => {
 
       startSlide();
   };
-
   gallerySlider();
-    
-  //валидация форм
-  const name = document.querySelectorAll('.name'),
-        freeVisitName = document.getElementById('free-visit-name'),
-        freeVisitPhone = document.getElementById('callback_form2-phone'),
-        callBackName = document.getElementById('callback_form1-name'),
-        callBackPhone = document.getElementById('callback_form1-phone');
-
-    name.forEach((item) => {
-      item.addEventListener('input', () => {
-        item.value = item.value.replace(/[^А-Яа-я ]/,'')
-      });
-
-      item.addEventListener('focus', () => {
-        item.style.border = '1px solid #ffd11a';
-      });
-
-      item.addEventListener('blur', () => {
-            item.style.border = '';
-            if(item.value !== '') {
-              item.value = item.value.replace(/\s+/g, ' ').trim()
-              item.value = item.value.replace(/[-]+/g, '-')
-              item.value = item.value.replace(/^\-+|\-+$/g, '')
-              item.value = item.value.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ')
-            } else {
-
-            }
-        });  
-
-    });
-
-    maskPhone('.phone');
 
   //отправка данных форм
-  const statusText1 = document.querySelector('.status-text1'),
-        statusText2 = document.querySelector('.status-text2'),
-        statusMess1 = document.querySelector('.status-message-form1'),
-        statusMess2 = document.querySelector('.status-message-form2'),
-        thanksModal = document.getElementById('thanks'),
-        badConnection = document.getElementById('bad-connection');
+  const sendForm = () => {
+        //валидация форм
+        const formName = document.querySelectorAll('.name'),
+              freeVisitName = document.getElementById('free-visit-name'),
+              freeVisitPhone = document.getElementById('callback_form2-phone'),
+              callBackName = document.getElementById('callback_form1-name'),
+              callBackPhone = document.getElementById('callback_form1-phone');
 
-    const sendForm = () => {
-          const errorMessage = 'Извините, произошла ошибка. Повторите попытку позже.',
-          successMessage = 'Сообщение отправлено. Наши менеджеры свяжутся с Вами в ближайшее время.',
-          forms = document.querySelectorAll('form');
+          formName.forEach((item) => {
+            item.addEventListener('input', () => {
+              item.value = item.value.replace(/[^А-Яа-я ]/,'')
+            });
+
+            item.addEventListener('focus', () => {
+              item.style.border = '1px solid #ffd11a';
+            });
+
+            item.addEventListener('blur', () => {
+                  item.style.border = '';
+                  if(item.value !== '') {
+                    item.value = item.value.replace(/\s+/g, ' ').trim()
+                    item.value = item.value.replace(/[-]+/g, '-')
+                    item.value = item.value.replace(/^\-+|\-+$/g, '')
+                    item.value = item.value.split(/\s+/).map(word => word[0].toUpperCase() + word.substring(1)).join(' ')
+                  } else {
+
+                  }
+              });  
+
+          });
+
+          maskPhone('.phone');
+
+        //открываем меню Выбрать клуб
+        const path = window.location.pathname,
+              page = path.split("/").pop(),
+              clubSelect = document.querySelector('.club-select'),
+              clubsShow = document.querySelector('.clubs-show');
+
+              clubsShow.classList.add('hidden-block');
+        
+          clubSelect.addEventListener('click', (event) => {
+            let target = event.target;
+
+            if (target.classList.contains('choose-club')) {
+            clubsShow.classList.toggle('hidden-block');
+            }
+
+          });
+
+        //открываем поп-ап окна
+        const showPopup = document.querySelector('.open-popup'),
+              freeVisit = document.getElementById('free_visit_form'),
+              callBackBtn = document.querySelector('.callback-btn'),
+              callBack = document.getElementById('callback_form');
+
+          showPopup.addEventListener('click', () => {
+            freeVisit.style.display = 'block';
+        });
+
+        callBackBtn.addEventListener('click', () => {
+          callBack.style.display = 'block';
+        });
+
+        const fixedGift = document.querySelector('.fixed-gift'),
+        gift = document.getElementById('gift');
+  
+        //закрываем поп-апы
+        document.addEventListener('click', (event) => {
+          let target = event.target;
+          if (target.classList.contains('overlay') || target.classList.contains('close_icon') || target.classList.contains('close-btn') || target.classList.contains('btn-ok1') || target.classList.contains('btn-ok2')) {
+            statusMess1.classList.add('hidden-block');
+            statusMess2.classList.add('hidden-block');
+            document.getElementById('form2').style.display = 'block';
+            document.getElementById('form2').reset();
+            document.getElementById('form1').style.display = 'block';
+            document.getElementById('form1').reset();
+            freeVisitName.classList.remove('success');
+            freeVisitPhone.classList.remove('success');
+            callBackName.classList.remove('success');
+            callBackPhone.classList.remove('success');      
+            freeVisit.style.display = 'none';
+            callBack.style.display = 'none';
+            thanksModal.style.display = 'none';
+            badConnection.style.display = 'none';
+            gift.style.display = 'none';
+          } else if (target.classList.contains('gift-icon')){
+            gift.style.display = 'block';
+            fixedGift.classList.add('hidden-block');
+          }
+        })
+
+
+        // calculator
+        const clubCards = document.getElementById('card_order'),
+              oneMonth = document.getElementById('m1'),
+              sixMonth = document.getElementById('m2'),
+              nineMonth = document.getElementById('m3'),
+              twelveMonth = document.getElementById('m4'),
+              clubMozaika = document.getElementById('card_leto_mozaika'),
+              clubSchelkovo = document.getElementById('card_leto_schelkovo'),
+              promoCode = document.getElementById('promocode'),
+              totalPrice = document.getElementById('price-total');
+              let currentPrice;
+        
+        if (page === '' || page === 'index.html') {
+          clubCards.addEventListener('click', (event) => {
+            let target = event.target;
+            if (target.matches('#m1') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && oneMonth.checked === true){
+              promoCode.value = '';
+              totalPrice.innerHTML = '1999';
+            } else if (target.matches('#m2') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && sixMonth.checked === true) {
+              promoCode.value = '';
+              totalPrice.innerHTML = '9990';
+            } else if (target.matches('#m3') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && nineMonth.checked === true) {
+              promoCode.value = '';
+              totalPrice.innerHTML = '13900';
+            } else if (target.matches('#m4') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && twelveMonth.checked === true) {
+              promoCode.value = '';
+              totalPrice.innerHTML = '19900';
+            } 
+        
+            if (target.matches('#m1') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && oneMonth.checked === true){
+              promoCode.value = '';
+              totalPrice.innerHTML = '2999';
+            } else if (target.matches('#m2') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && sixMonth.checked === true) {
+              promoCode.value = '';
+              totalPrice.innerHTML = '14990';
+            } else if (target.matches('#m3') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && nineMonth.checked === true) {
+              promoCode.value = '';
+              totalPrice.innerHTML = '21990';
+            } else if (target.matches('#m4') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && twelveMonth.checked === true) {
+              promoCode.value = '';
+              totalPrice.innerHTML = '24990';
+            }
+            currentPrice = totalPrice.innerHTML; 
+          });
+
+        }
           
-        const statusMessageGood = document.createElement('div'),
-              statusMessageBad = document.createElement('div');
+        if (page === '' || page === 'index.html') {
+          promoCode.addEventListener('input', () => {
+            if (promoCode.value === 'ТЕЛО2020') {
+              totalPrice.innerHTML = currentPrice - Math.ceil(totalPrice.innerText * 0.3) ;
+            } else if (promoCode !== 'ТЕЛО2020') {
+              totalPrice.innerHTML = currentPrice;
+            }
+          });
+        }
+
+
+        //отправка форм
+        const statusMess1 = document.querySelector('.status-message-form1'),
+            statusMess2 = document.querySelector('.status-message-form2'),
+            thanksModal = document.getElementById('thanks'),
+            badConnection = document.getElementById('bad-connection'),
+            errorMessage = 'Извините, произошла ошибка. Повторите попытку позже.',
+            successMessage = 'Сообщение отправлено. Наши менеджеры свяжутся с Вами в ближайшее время.',
+            forms = document.querySelectorAll('form'),
+            statusMessageGood = document.createElement('div'),
+            statusMessageBad = document.createElement('div');
+        
         statusMessageGood.style.cssText = 'font-size: 1rem; margin-top: 5px; text-align: center; color: green';
         statusMessageBad.style.cssText = 'font-size: 1rem; margin-top: 5px; text-align: center; color: #d93025';
 
@@ -260,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (item.matches('#footer_form') && phone.classList.contains('success') && checkbox.checked === false && checkbox2.checked === false) {
               item.appendChild(statusMessageBad);
               statusMessageBad.textContent = 'Необходимо выбрать один клуб';
-            } else {
+            } else if (!item.matches('#footer_form') && name.classList.contains('success') && phone.classList.contains('success') && checkbox.checked === true || phone.classList.contains('success') && checkbox2.checked === true || item.matches('#footer_form') && phone.classList.contains('success') && checkbox2.checked === true || item.matches('#footer_form') && phone.classList.contains('success') && checkbox.checked === true){
               statusMessageBad.textContent = '';
               item.appendChild(statusMessageGood);
             statusMessageGood.innerHTML = `  
@@ -361,27 +415,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
         })
-    };
-    sendForm();
+  };
+  sendForm();
 
-
-    //вызов мобильного меню
-
-    const menuButton = document.querySelector('.menu-button'),
-          popupMenu = document.querySelector('.popup-menu');
-
-    menuButton.addEventListener('click', () => {
-      popupMenu.style.display = 'flex';
-    });
-
-    popupMenu.addEventListener('click', (event) => {
-      let target = event.target;
-      if (target.matches('.scroll-item, .close-menu-button')){
-        popupMenu.style.display = 'none';
-      }
-    });
-
-    //появлеие стрелки наверх
+  //появлеие стрелки наверх
+  const toTopButton = () => {
     const headSlider = document.querySelector('.head-slider'),
           toTop = document.getElementById('totop');
     
@@ -399,10 +437,12 @@ document.addEventListener('DOMContentLoaded', () => {
         toTop.style.display = 'block';
       }
     });
+  }
+  toTopButton();
 
-    //фиксация бургер меню
-    (function(){  
-    let a = document.querySelector('.top-menu'), b = null;
+  //фиксация бургер меню
+  const fixBurgerMenu = () => {
+      let a = document.querySelector('.top-menu'), b = null;
     window.addEventListener('scroll', Ascroll, false);
     
     function Ascroll() {
@@ -420,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 1; i < l; i++) {
       b.appendChild(a.childNodes[1]);
     }
-    a.style.height = b.getBoundingClientRect().height + 'px';
+    a.style.height = '100%';
     a.style.padding = '0';
     a.style.border = '0'; 
     }
@@ -433,64 +473,24 @@ document.addEventListener('DOMContentLoaded', () => {
       a.children[0].style.width = getComputedStyle(a, '').width
     }, false); 
     }
-    })()
 
-  //калькулятор
-  const clubCards = document.getElementById('card_order'),
-        oneMonth = document.getElementById('m1'),
-        sixMonth = document.getElementById('m2'),
-        nineMonth = document.getElementById('m3'),
-        twelveMonth = document.getElementById('m4'),
-        clubMozaika = document.getElementById('card_leto_mozaika'),
-        clubSchelkovo = document.getElementById('card_leto_schelkovo'),
-        promoCode = document.getElementById('promocode'),
-        totalPrice = document.getElementById('price-total');
-  let currentPrice;
-  
-  if (page === '' || page === 'index.html') {
-    clubCards.addEventListener('click', (event) => {
+    //вызов мобильного меню
+
+    const menuButton = document.querySelector('.menu-button'),
+          popupMenu = document.querySelector('.popup-menu');
+
+    menuButton.addEventListener('click', () => {
+      popupMenu.style.display = 'flex';
+    });
+
+    popupMenu.addEventListener('click', (event) => {
       let target = event.target;
-      if (target.matches('#m1') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && oneMonth.checked === true){
-        promoCode.value = '';
-        totalPrice.innerHTML = '1999';
-      } else if (target.matches('#m2') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && sixMonth.checked === true) {
-        promoCode.value = '';
-        totalPrice.innerHTML = '9990';
-      } else if (target.matches('#m3') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && nineMonth.checked === true) {
-        promoCode.value = '';
-        totalPrice.innerHTML = '13900';
-      } else if (target.matches('#m4') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && twelveMonth.checked === true) {
-        promoCode.value = '';
-        totalPrice.innerHTML = '19900';
-      } 
-  
-      if (target.matches('#m1') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && oneMonth.checked === true){
-        promoCode.value = '';
-        totalPrice.innerHTML = '2999';
-      } else if (target.matches('#m2') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && sixMonth.checked === true) {
-        promoCode.value = '';
-        totalPrice.innerHTML = '14990';
-      } else if (target.matches('#m3') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && nineMonth.checked === true) {
-        promoCode.value = '';
-        totalPrice.innerHTML = '21990';
-      } else if (target.matches('#m4') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && twelveMonth.checked === true) {
-        promoCode.value = '';
-        totalPrice.innerHTML = '24990';
+      if (target.matches('.scroll-item, .close-menu-button')){
+        popupMenu.style.display = 'none';
       }
-      currentPrice = totalPrice.innerHTML; 
     });
 
   }
-    
-  if (page === '' || page === 'index.html') {
-    promoCode.addEventListener('input', () => {
-      if (promoCode.value === 'ТЕЛО2020') {
-        totalPrice.innerHTML = currentPrice - Math.ceil(totalPrice.innerText * 0.3) ;
-      } else if (promoCode !== 'ТЕЛО2020') {
-         totalPrice.innerHTML = currentPrice;
-      }
-    });
-  }  
-
+  fixBurgerMenu();
 
 });
