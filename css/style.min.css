@@ -2178,6 +2178,18 @@ p.personal-data input[type="checkbox"]:checked + label:before {
   text-transform: uppercase;
   font-size: 20px;
 }
+#bad-connection .form-content p {
+  font-size: 20px;
+  width: 90%;
+  color: #fff;
+  font-weight: 500;
+  margin-top: 30px;
+}
+#bad-connection .form-content .close-btn {
+  margin-top: 15px;
+  text-transform: uppercase;
+  font-size: 20px;
+}
 #gift .form-content p {
   font-size: 20px;
   width: 90%;

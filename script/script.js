@@ -7,9 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clubSelect = document.querySelector('.club-select'),
         clubsShow = document.querySelector('.clubs-show');
 
-    if (page === 'index.html') {
-      clubsShow.classList.add('hidden-block');
-    }
+        clubsShow.classList.add('hidden-block');
   
     clubSelect.addEventListener('click', (event) => {
       let target = event.target;
@@ -35,21 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
     callBack.style.display = 'block';
   });
 
-  if (page === 'index.html') {
-    const fixedGift = document.querySelector('.fixed-gift'),
+  const fixedGift = document.querySelector('.fixed-gift'),
           gift = document.getElementById('gift');
-    
-    fixedGift.addEventListener('click', () => {
-      gift.style.display = 'block';
-      fixedGift.classList.add('hidden-block');
-    });
-  }
-
   
   //закрываем поп-апы
   const body = document.querySelector('body');
 
-  body.addEventListener('click', (event) => {
+  document.addEventListener('click', (event) => {
     let target = event.target;
     if (target.classList.contains('overlay') || target.classList.contains('close_icon') || target.classList.contains('close-btn') || target.classList.contains('btn-ok1') || target.classList.contains('btn-ok2')) {
       statusMess1.classList.add('hidden-block');
@@ -64,7 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
       callBackPhone.classList.remove('success');      
       freeVisit.style.display = 'none';
       callBack.style.display = 'none';
+      thanksModal.style.display = 'none';
+      badConnection.style.display = 'none';
       gift.style.display = 'none';
+    } else if (target.classList.contains('gift-icon')){
+      gift.style.display = 'block';
+      fixedGift.classList.add('hidden-block');
     }
   })
 
@@ -237,32 +232,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const statusText1 = document.querySelector('.status-text1'),
         statusText2 = document.querySelector('.status-text2'),
         statusMess1 = document.querySelector('.status-message-form1'),
-        statusMess2 = document.querySelector('.status-message-form2');
+        statusMess2 = document.querySelector('.status-message-form2'),
+        thanksModal = document.getElementById('thanks'),
+        badConnection = document.getElementById('bad-connection');
 
     const sendForm = () => {
           const errorMessage = 'Извините, произошла ошибка. Повторите попытку позже.',
           successMessage = 'Сообщение отправлено. Наши менеджеры свяжутся с Вами в ближайшее время.',
           forms = document.querySelectorAll('form');
           
-        const statusMessage = document.createElement('div');
-        statusMessage.style.cssText = 'font-size: 1rem; margin-top: 5px; color: #d93025';
+        const statusMessageGood = document.createElement('div'),
+              statusMessageBad = document.createElement('div');
+        statusMessageGood.style.cssText = 'font-size: 1rem; margin-top: 5px; text-align: center; color: green';
+        statusMessageBad.style.cssText = 'font-size: 1rem; margin-top: 5px; text-align: center; color: #d93025';
 
         forms.forEach((item) => {
           
-
           let name = item.querySelector('.name'),
-                          phone = item.querySelector('.phone'),
-                          checkbox = item.querySelector('.checkbox');
+              phone = item.querySelector('.phone'),
+              checkbox = item.querySelector('.checkbox'),
+              checkbox2 = item.querySelector('.radio');
 
         item.addEventListener('submit', (event) => {
             event.preventDefault();            
 
-            if (name.classList.contains('success') && phone.classList.contains('success') && checkbox.checked === false) {
-              item.appendChild(statusMessage);
-              statusMessage.textContent = 'Необходимо согласиться на обработку данных';
+            if (!item.matches('#footer_form') && name.classList.contains('success') && phone.classList.contains('success') && checkbox.checked === false) {
+              item.appendChild(statusMessageBad);
+              statusMessageBad.textContent = 'Необходимо согласиться на обработку данных';
+            } else if (item.matches('#footer_form') && phone.classList.contains('success') && checkbox.checked === false && checkbox2.checked === false) {
+              item.appendChild(statusMessageBad);
+              statusMessageBad.textContent = 'Необходимо выбрать один клуб';
             } else {
-              item.appendChild(statusMessage);
-            statusMessage.innerHTML = `  
+              statusMessageBad.textContent = '';
+              item.appendChild(statusMessageGood);
+            statusMessageGood.innerHTML = `  
             <div class='sk-fading-circle'>
                 <div class='sk-circle sk-circle-1'></div>
                 <div class='sk-circle sk-circle-2'></div>
@@ -285,36 +288,62 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (response.status !== 200) {
                         throw new Error('status error not 200')
                     }
-                    if (item.classList.contains('form1')) {
+                    if (item.classList.contains('form1') || item.classList.contains('form2')) {
                       item.style.display = 'none';
-                      item.removeChild(statusMessage)
-                      statusMess1.classList.remove('hidden-block');
-                      statusText1.textContent = successMessage;
-                    } else if (item.classList.contains('form2')) {
-                      item.style.display = 'none';
-                      item.removeChild(statusMessage)
-                      statusMess2.classList.remove('hidden-block');
-                      statusText2.textContent = successMessage;
+                      item.removeChild(statusMessageGood)
+                      thanksModal.style.display = 'block';
+                    } else if (item.matches('#banner-form')) {
+                      thanksModal.style.display = 'block';
+                      name.classList.remove('success');
+                      phone.classList.remove('success');
+                      item.reset();
+                      statusMessageGood.textContent = '';
+                    } else if (item.matches('#footer_form')) {
+                      thanksModal.style.display = 'block';
+                      phone.classList.remove('success');
+                      item.reset();
+                      statusMessageGood.textContent = '';
+                    } else if (item.classList.contains('card_order1')){
+                      name.classList.remove('success');
+                      phone.classList.remove('success');
+                      promoCode.classList.remove('success');
+                      statusMessageGood.textContent = successMessage;
+                      item.reset();
+                      setTimeout(() => {
+                        statusMessageGood.textContent = '';
+                      }, 5000);  
                     } else {
-                      statusMessage.textContent = successMessage;
-                      // statusMessage.textContent = '';
-                      item.reset();  
+                      name.classList.remove('success');
+                      phone.classList.remove('success');
+                      statusMessageGood.textContent = successMessage;
+                      item.reset();
+                      setTimeout(() => {
+                        statusMessageGood.textContent = '';
+                      }, 5000);
                     }
 
                 })
                 .catch((error) => {
-                    if (item.classList.contains('form1')) {
+                    if (item.classList.contains('form1') || item.classList.contains('form2')) {
                       item.style.display = 'none';
-                      statusMess1.classList.remove('hidden-block');
-                      statusText1.textContent = errorMessage;
-                    } else if (item.classList.contains('form2')) {
-                      item.style.display = 'none';
-                      statusMess2.classList.remove('hidden-block');
-                      statusText2.textContent = errorMessage;
+                      badConnection.style.display = 'block';
+                    } else if (item.matches('#banner-form')) {
+                      badConnection.style.display = 'block';
+                      name.classList.remove('success');
+                      phone.classList.remove('success');
+                      item.reset();
+                      statusMessageGood.textContent = '';
+                    } else if (item.matches('#footer_form')) {
+                      badConnection.style.display = 'block';
+                      phone.classList.remove('success');
+                      item.reset();
+                      statusMessageGood.textContent = '';
                     } else {
-                      statusMessage.textContent = errorMessage;
-                      // statusMessage.textContent = '';
-                      item.reset();  
+                      statusMessageBad.textContent = errorMessage;
+                      item.reset();
+                      setTimeout(() => {
+                        statusMessageBad.textContent = '';
+                      }, 5000);   
                     }
                     console.error(error);
                 });
@@ -334,24 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     };
     sendForm();
-    // freeVisitButton.addEventListener('click', () => {
-    //   if(freeVisitName.classList.contains('success') && freeVisitPhone.classList.contains('success') && freeVisitCheckbox.checked === true) {
-    //     sendForm();
-    //   } else if (freeVisitName.classList.contains('success') && freeVisitPhone.classList.contains('success') && freeVisitCheckbox.checked === false) {
-    //     console.log('no');
-    //     const form2 = document.getElementById('form2');
 
-    //     const statusMessage = document.createElement('div');
-    //     statusMessage.style.cssText = 'font-size: 1rem; margin-top: 5px; color: #fff';
-
-    //     form2.appendChild(statusMessage);
-    //     statusMessage.textContent = 'Необходимо согласиться на обработку данных';
-    //     setTimeout(() => {
-    //       statusMessage.textContent = '';
-    //     }, 2000);
-    //   }
-    // });
-    
 
     //вызов мобильного меню
 
@@ -370,34 +382,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     //появлеие стрелки наверх
-    const clubs = document.getElementById('clubs'),
-          breadcrumbs = document.querySelector('.breadcrumbs'), 
+    const headSlider = document.querySelector('.head-slider'),
           toTop = document.getElementById('totop');
     
     function isInViewport(el) {
     const rect = el.getBoundingClientRect();
       return (
-          rect.top >= 0
+          rect.bottom >= 0
       );
     }
 
-    if (page === 'index.html') {
-      document.addEventListener('scroll', function () {
-      if(isInViewport(clubs)){
+    document.addEventListener('scroll', function () {
+      if(isInViewport(headSlider)){
         toTop.style.display = 'none';
       } else {
         toTop.style.display = 'block';
       }
     });
-    } else {
-      document.addEventListener('scroll', function () {
-      if(isInViewport(breadcrumbs)){
-        toTop.style.display = 'none';
-      } else {
-        toTop.style.display = 'block';
-      }
-    });
-    }
 
     //фиксация бургер меню
     (function(){  
@@ -445,45 +446,51 @@ document.addEventListener('DOMContentLoaded', () => {
         promoCode = document.getElementById('promocode'),
         totalPrice = document.getElementById('price-total');
   let currentPrice;
+  
+  if (page === 'index.html') {
+    clubCards.addEventListener('click', (event) => {
+      let target = event.target;
+      if (target.matches('#m1') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && oneMonth.checked === true){
+        promoCode.value = '';
+        totalPrice.innerHTML = '1999';
+      } else if (target.matches('#m2') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && sixMonth.checked === true) {
+        promoCode.value = '';
+        totalPrice.innerHTML = '9990';
+      } else if (target.matches('#m3') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && nineMonth.checked === true) {
+        promoCode.value = '';
+        totalPrice.innerHTML = '13900';
+      } else if (target.matches('#m4') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && twelveMonth.checked === true) {
+        promoCode.value = '';
+        totalPrice.innerHTML = '19900';
+      } 
+  
+      if (target.matches('#m1') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && oneMonth.checked === true){
+        promoCode.value = '';
+        totalPrice.innerHTML = '2999';
+      } else if (target.matches('#m2') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && sixMonth.checked === true) {
+        promoCode.value = '';
+        totalPrice.innerHTML = '14990';
+      } else if (target.matches('#m3') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && nineMonth.checked === true) {
+        promoCode.value = '';
+        totalPrice.innerHTML = '21990';
+      } else if (target.matches('#m4') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && twelveMonth.checked === true) {
+        promoCode.value = '';
+        totalPrice.innerHTML = '24990';
+      }
+      currentPrice = totalPrice.innerHTML; 
+    });
 
-  clubCards.addEventListener('click', (event) => {
-    let target = event.target;
-    if (target.matches('#m1') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && oneMonth.checked === true){
-      promoCode.value = '';
-      totalPrice.innerHTML = '1999';
-    } else if (target.matches('#m2') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && sixMonth.checked === true) {
-      promoCode.value = '';
-      totalPrice.innerHTML = '9990';
-    } else if (target.matches('#m3') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && nineMonth.checked === true) {
-      promoCode.value = '';
-      totalPrice.innerHTML = '13900';
-    } else if (target.matches('#m4') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && twelveMonth.checked === true) {
-      promoCode.value = '';
-      totalPrice.innerHTML = '19900';
-    } 
-
-    if (target.matches('#m1') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && oneMonth.checked === true){
-      promoCode.value = '';
-      totalPrice.innerHTML = '2999';
-    } else if (target.matches('#m2') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && sixMonth.checked === true) {
-      promoCode.value = '';
-      totalPrice.innerHTML = '14990';
-    } else if (target.matches('#m3') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && nineMonth.checked === true) {
-      promoCode.value = '';
-      totalPrice.innerHTML = '21990';
-    } else if (target.matches('#m4') && clubSchelkovo.checked === true || target.matches('#card_leto_schelkovo') && twelveMonth.checked === true) {
-      promoCode.value = '';
-      totalPrice.innerHTML = '24990';
-    }
-    currentPrice = totalPrice.innerHTML; 
-  });
+  }
     
+  if (page === 'index.html') {
     promoCode.addEventListener('input', () => {
-    if (promoCode.value === 'ТЕЛО2020') {
-      totalPrice.innerHTML = currentPrice - Math.ceil(totalPrice.innerText * 0.3) ;
-    } else if (promoCode !== 'ТЕЛО2020') {
-      totalPrice.innerHTML = currentPrice;
-    }
-  });
+      if (promoCode.value === 'ТЕЛО2020') {
+        totalPrice.innerHTML = currentPrice - Math.ceil(totalPrice.innerText * 0.3) ;
+      } else if (promoCode !== 'ТЕЛО2020') {
+         totalPrice.innerHTML = currentPrice;
+      }
+    });
+  }  
+
 
 });

@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="css/style.min.css" />
   </head>
   <body>
-    <div class="fixed-gift"><img src=images/gift.png alt></div>
+    <div class="fixed-gift"><img class="gift-icon" src=images/gift.png alt></div>
     <header class="header-main">
       <div class="head">
         <div class="wrapper">
@@ -360,7 +360,7 @@
             <img src="images/cards.png" alt="Клубные карты" />
           </div>
           <div class="right">
-            <form action="" id="card_order">
+            <form action="" id="card_order" class="card_order1">
               <div class="time">
                 <input
                   id="m1"
@@ -408,7 +408,6 @@
                     class="promocode"
                     type="text"
                     id="promocode"
-                    required
                     placeholder="Промокод"
                   />
                 </div>
@@ -485,6 +484,7 @@
                       type="radio"
                       id="footer_leto_mozaika"
                       name="club-name"
+                      class="checkbox"
                       value="mozaika"
                     /><label for="footer_leto_mozaika">
                       <h6>Тело «Мозаика»</h6>
@@ -496,6 +496,7 @@
                       type="radio"
                       id="footer_leto_schelkovo"
                       name="club-name"
+                      class="radio"
                       value="schelkovo"
                     /><label for="footer_leto_schelkovo">
                       <h6>Тело «Щелково»</h6>
@@ -698,6 +699,22 @@
         </div>
       </div>
     </div>
+    <div class="popup" id="bad-connection">
+      <div class="overlay"></div>
+      <div class="form-wrapper">
+        <div class="close-form">
+          <img src="images/close-icon.png" alt="close" class="close_icon" />
+        </div>
+        <div class="form-content">
+          <h4>Извините!</h4>
+          <p>
+            Произошла ошибка <br />
+            Повторите попытку позже.
+          </p>
+          <button class="btn close-btn">OK</button>
+        </div>
+      </div>
+    </div>
     <div class="popup" id="gift">
       <div class="overlay"></div>
       <div class="form-wrapper">
@@ -718,7 +735,7 @@
       const carousel = new SliderCarousel({
         main: ".wrapper",
         wrap: ".services-slider",
-        slidesToShow: 5,
+        slidesToShow: 4,
         infinity: true
       });
 
@@ -771,10 +788,20 @@
         "callback_form2-phone": [["notEmpty"], ["pattern", "phone"]],
       },
     });
+    const valid5 = new Validator({
+      selector: "footer_form",
+      pattern: {
+        phone: /\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}/
+      },
+      method: {
+        "callback_footer_form-phone": [["notEmpty"], ["pattern", "phone"]],
+      },
+    });
 
     valid1.init();
     valid2.init();
     valid3.init();
     valid4.init();
+    valid5.init();
     </script>
 </html>
