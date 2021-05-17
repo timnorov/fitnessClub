@@ -35,15 +35,20 @@
         const path = window.location.pathname,
               page = path.split("/").pop(),
               clubSelect = document.querySelector('.club-select'),
+              body = document.querySelector('body'),
               clubsShow = document.querySelector('.clubs-show');
 
               clubsShow.classList.add('hidden-block');
         
-          clubSelect.addEventListener('click', (event) => {
+          body.addEventListener('click', (event) => {
             let target = event.target;
 
             if (target.classList.contains('choose-club')) {
             clubsShow.classList.toggle('hidden-block');
+            } else if (!target.classList.contains('clubs-show') || !target.classList.contains('clubs-show-item')) {
+            clubsShow.classList.add('hidden-block');
+            } else if (target.classList.contains('clubs-show') || target.classList.contains('clubs-show-item')) {
+             return; 
             }
 
           });
@@ -68,6 +73,7 @@
         //закрываем поп-апы
         document.addEventListener('click', (event) => {
           let target = event.target;
+          console.log(target);
           if (target.classList.contains('overlay') || target.classList.contains('close_icon') || target.classList.contains('close-btn') || target.classList.contains('btn-ok1') || target.classList.contains('btn-ok2')) {
             statusMess1.classList.add('hidden-block');
             statusMess2.classList.add('hidden-block');
@@ -87,7 +93,7 @@
           } else if (target.classList.contains('gift-icon')){
             gift.style.display = 'block';
             fixedGift.classList.add('hidden-block');
-          }
+          } 
         })
 
 
@@ -209,14 +215,25 @@
                       item.style.display = 'none';
                       item.removeChild(statusMessageGood)
                       thanksModal.style.display = 'block';
+                      setTimeout(() => {
+                        thanksModal.style.display = 'none';
+                        freeVisit.style.display = 'none';
+                        callBack.style.display = 'none';
+                      }, 4000);
                     } else if (item.matches('#banner-form')) {
                       thanksModal.style.display = 'block';
+                      setTimeout(() => {
+                        thanksModal.style.display = 'none';
+                      }, 4000);
                       name.classList.remove('success');
                       phone.classList.remove('success');
                       item.reset();
                       statusMessageGood.textContent = '';
                     } else if (item.matches('#footer_form')) {
                       thanksModal.style.display = 'block';
+                      setTimeout(() => {
+                        thanksModal.style.display = 'none';
+                      }, 4000);
                       phone.classList.remove('success');
                       item.reset();
                       statusMessageGood.textContent = '';
@@ -245,14 +262,25 @@
                     if (item.classList.contains('form1') || item.classList.contains('form2')) {
                       item.style.display = 'none';
                       badConnection.style.display = 'block';
+                      setTimeout(() => {
+                        badConnection.style.display = 'none';
+                        freeVisit.style.display = 'none';
+                        callBack.style.display = 'none';
+                      }, 4000);
                     } else if (item.matches('#banner-form')) {
                       badConnection.style.display = 'block';
+                      setTimeout(() => {
+                        badConnection.style.display = 'none';
+                      }, 4000);
                       name.classList.remove('success');
                       phone.classList.remove('success');
                       item.reset();
                       statusMessageGood.textContent = '';
                     } else if (item.matches('#footer_form')) {
                       badConnection.style.display = 'block';
+                      setTimeout(() => {
+                        badConnection.style.display = 'none';
+                      }, 4000);
                       phone.classList.remove('success');
                       item.reset();
                       statusMessageGood.textContent = '';
