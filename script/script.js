@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (item.matches('#footer_form') && phone.classList.contains('success') && checkbox.checked === false && checkbox2.checked === false) {
               item.appendChild(statusMessageBad);
               statusMessageBad.textContent = 'Необходимо выбрать один клуб';
-            } else if (!item.matches('#footer_form') && name.classList.contains('success') && phone.classList.contains('success') && checkbox.checked === true){
+            } else {
               statusMessageBad.textContent = '';
               item.appendChild(statusMessageGood);
             statusMessageGood.innerHTML = `  
