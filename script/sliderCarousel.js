@@ -11,7 +11,8 @@ const services = document.getElementById('services');
       prev,
       infinity = false,
       position = 0,
-      slidesToShow = 5
+      slidesToShow = 5,
+      responsive = []
     }){
       if(!main || !wrap){
         console.warn('slider-carousel: Необходимо 2 свойства, "main" и "wrap"!');
@@ -27,6 +28,7 @@ const services = document.getElementById('services');
         infinity,
         widthSlide: Math.floor(100 / this.slidesToShow)
       };
+      this.responsive = responsive;
     }
 
     init(){
@@ -39,6 +41,10 @@ const services = document.getElementById('services');
         this.addArrow();
         this.controlSlider();
       }
+      if (this.responsive) {
+        this.responseInit();  
+      }
+      
     }
 
     addGloClass() {
@@ -50,8 +56,11 @@ const services = document.getElementById('services');
     }
 
     addStyle(){
-      const style = document.createElement('style');
-      style.id = 'sliderCarousel-style';
+      let style = document.getElementById('sliderCarousel-style');
+      if (!style){
+        style = document.createElement('style');
+        style.id = 'sliderCarousel-style';
+      }
       style.textContent = `
         #services{
           position: relative !important;
@@ -59,7 +68,7 @@ const services = document.getElementById('services');
         .glo-slider{
           overflow: hidden !important;
           padding-left: 9px !important;
-          padding-right: 9px !important;
+          padding-right: 9px;
           position: relative !important;
         }
         .glo-slider__wrap{
@@ -69,7 +78,7 @@ const services = document.getElementById('services');
           padding-right: 0 !important;
         }
         .glo-slider__item{
-          flex: 0 0 ${this.options.widthSlide}% !important;
+          flex: 0 0 ${this.options.widthSlide}%;
           margin-left: 0 !important;
           margin-right: 0 !important;
         }
@@ -150,5 +159,33 @@ const services = document.getElementById('services');
       `;
 
       document.head.appendChild(style);
+    }
+
+    responseInit(){
+      const slidesToShowDefault = this.slidesToShow;
+      const allResponse = this.responsive.map(item => item.breakpoint);
+      const maxResponse = Math.max(...allResponse);
+      
+      const checkResponse = () => {
+        const widthWindow = document.documentElement.clientWidth;
+        if (widthWindow < maxResponse) {
+          for (let i = 0; i < allResponse.length; i++) {
+            if (widthWindow < allResponse[i]){
+              this.slidesToShow = this.responsive[i].slidesToShow;
+              this.options.widthSlide = Math.floor(100 / this.slidesToShow);
+              this.addStyle();
+            }
+          } 
+        } else {
+              this.slidesToShow = slidesToShowDefault;
+              this.options.widthSlide = Math.floor(100 / this.slidesToShow);
+              this.addStyle();
+        }
+      };
+
+      checkResponse();
+
+      window.addEventListener('resize', checkResponse);
+
     }
   }

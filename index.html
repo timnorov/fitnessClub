@@ -213,7 +213,7 @@
               name="form_name"
               value=" Записаться на визит"
             />
-            <input name="name" type="text" class="name" required placeholder="Ваше имя..." />
+            <input name="name" type="text" class="name" id="banner-form_name" required placeholder="Ваше имя..." />
             <input
               type="tel"
               name="phone"
@@ -327,7 +327,7 @@
     <section id="gallery">
       <h2>Фотогалерея</h2>
       <div class="gallery-bg">
-        <div class="wrapper">
+        <div class="wrapper gallery-wrapper">
           <div class="gallery-slider">
             <div class="slide gallery-slides gallery-slides-active">
               <img src="images/gallery/photo1.jpg" alt="" />
@@ -419,6 +419,7 @@
                 <input
                   name="name"
                   class="name"
+                  id="card_order-name"
                   type="text"
                   required
                   placeholder="Ваше имя..."
@@ -735,8 +736,25 @@
       const carousel = new SliderCarousel({
         main: ".wrapper",
         wrap: ".services-slider",
-        slidesToShow: 4,
-        infinity: true
+        slidesToShow: 5,
+        infinity: true,
+        responsive: [{
+          breakpoint: 1200,
+          slidesToShow: 4
+        },
+        {
+          breakpoint: 991,
+          slidesToShow: 3
+        },
+        {
+          breakpoint: 767,
+          slidesToShow: 2
+        },
+        {
+          breakpoint: 576,
+          slidesToShow: 1
+        }      
+      ]
       });
 
       carousel.init();
@@ -762,8 +780,8 @@
         phone: /\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}/
       },
       method: {
-        "free-visit-name": [["notEmpty"], ["pattern", "name"]],
-        "callback_form2-phone": [["notEmpty"], ["pattern", "phone"]],
+        "callback_form1-name": [["notEmpty"], ["pattern", "name"]],
+        "callback_form1-phone": [["notEmpty"], ["pattern", "phone"]],
       },
     });
     const valid3 = new Validator({
@@ -773,8 +791,8 @@
         phone: /\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}/
       },
       method: {
-        "free-visit-name": [["notEmpty"], ["pattern", "name"]],
-        "callback_form2-phone": [["notEmpty"], ["pattern", "phone"]],
+        "banner-form_name": [["notEmpty"], ["pattern", "name"]],
+        "phone": [["notEmpty"], ["pattern", "phone"]],
       },
     });
     const valid4 = new Validator({
@@ -784,8 +802,8 @@
         phone: /\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}/
       },
       method: {
-        "free-visit-name": [["notEmpty"], ["pattern", "name"]],
-        "callback_form2-phone": [["notEmpty"], ["pattern", "phone"]],
+        "card_order-name": [["notEmpty"], ["pattern", "name"]],
+        "callback_form-phone": [["notEmpty"], ["pattern", "phone"]],
       },
     });
     const valid5 = new Validator({

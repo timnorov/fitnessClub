@@ -1102,14 +1102,13 @@ nav.popup-menu .close-menu-btn img {
 .switchers {
   display: flex;
   position: absolute;
-  top: 380px;
+  top: 95%;
   left: 50%;
   transform: translateX(-50%);
 }
 .gallery-slider {
-  max-width: 915px !important;
-  height: 412px;
-  position: relative;
+  max-width: 751px !important;
+  height: 401px;
   padding: 0 !important;
 }
 .gallery-slides-active {
@@ -1137,12 +1136,14 @@ nav.popup-menu .close-menu-btn img {
   background-color: yellow !important;
 }
 .photoGallery__prev {
-  left: 0 !important;
-  top: 182px !important;
+  left: 0px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
 }
 .photoGallery__next {
-  right: 0 !important;
-  top: 182px !important;
+  right: 0px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
 }
 .sticky {
   position: fixed;
@@ -1619,6 +1620,10 @@ nav.popup-menu .close-menu-btn img {
 #gallery {
   background-color: #fff;
 }
+.gallery-wrapper {
+  position: relative;
+  width: 880px;
+}
 #gallery .gallery-bg {
   background: url(../images/gallery-bg.png) left center no-repeat;
 }
@@ -1627,7 +1632,6 @@ nav.popup-menu .close-menu-btn img {
   padding-right: 75px;
   max-width: 900px;
   margin: 0 auto;
-  text-align: center;
 }
 #gallery .gallery-slider .slide {
   margin: 0 auto !important;
@@ -2214,6 +2218,9 @@ p.personal-data input[type="checkbox"]:checked + label:before {
     right: 0;
     width: 49vw;
   }
+  .glo-slider {
+    max-width: 950px;
+  }
 }
 @media only screen and (max-width: 991px) {
   .hidden-991 {
@@ -2292,6 +2299,20 @@ p.personal-data input[type="checkbox"]:checked + label:before {
   .services-slider .slider-arrow.next {
     right: 3px;
   }
+  .glo-slider {
+    max-width: 720px;
+    padding-right: 0 !important;
+  }
+  .gallery-wrapper {
+    width: 780px !important;
+  }
+  .gallery-slider {
+    max-width: 651px !important;
+    height: 348px !important;
+  }
+  .gallery-slides {
+    width: 651px !important;
+  }
 }
 @media only screen and (max-width: 880px) {
   header .top-menu ul li a {
@@ -2301,6 +2322,16 @@ p.personal-data input[type="checkbox"]:checked + label:before {
     -ms-flex-wrap: wrap;
     -o-flex-wrap: wrap;
     flex-wrap: wrap;
+  }
+  .gallery-wrapper {
+    width: 729px !important;
+  }
+  .gallery-slider {
+    max-width: 600px !important;
+    height: 320px !important;
+  }
+  .gallery-slides {
+    width: 600px !important;
   }
 }
 @media only screen and (max-width: 767px) {
@@ -2406,6 +2437,38 @@ p.personal-data input[type="checkbox"]:checked + label:before {
     -ms-flex-pack: center;
     justify-content: center;
   }
+  .glo-slider {
+    max-width: 490px;
+    padding-right: 9px !important;
+  }
+  .gallery-bg {
+    background-size: 1150px !important;
+  }
+  .gallery-wrapper {
+    width: 579px !important;
+  }
+  .gallery-slider {
+    max-width: 450px !important;
+    height: 241px !important;
+  }
+  .gallery-slides {
+    width: 450px !important;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .gallery-bg {
+    background-size: 1150px !important;
+  }
+  .gallery-wrapper {
+    width: 529px !important;
+  }
+  .gallery-slider {
+    max-width: 400px !important;
+    height: 215px !important;
+  }
+  .gallery-slides {
+    width: 400px !important;
+  }
 }
 @media only screen and (max-width: 580px) {
   header .head-main .right {
@@ -2422,6 +2485,23 @@ p.personal-data input[type="checkbox"]:checked + label:before {
   }
   header .head-main .right .free-visit img {
     margin-right: 15px;
+  }
+  .glo-slider {
+    max-width: 291px;
+    /* padding-right: 9px !important; */
+  }
+  .gallery-bg {
+    background-size: 1150px !important;
+  }
+  .gallery-wrapper {
+    width: 433px !important;
+  }
+  .gallery-slider {
+    max-width: 350px !important;
+    height: 187px !important;
+  }
+  .gallery-slides {
+    width: 350px !important;
   }
 }
 @media only screen and (max-width: 479px) {
@@ -2511,6 +2591,27 @@ p.personal-data input[type="checkbox"]:checked + label:before {
   .popup .form-content input[type="text"],
   .popup .form-content input[type="tel"] {
     width: 80vw;
+  }
+  .photoGallery__prev {
+    display: none;
+  }
+  .photoGallery__next {
+    display: none;
+  }
+}
+@media only screen and (max-width: 433px) {
+  .gallery-bg {
+    background-size: 957px !important;
+  }
+  .gallery-wrapper {
+    width: 310px !important;
+  }
+  .gallery-slider {
+    max-width: 280px !important;
+    height: 150px !important;
+  }
+  .gallery-slides {
+    width: 280px !important;
   }
 }
 @media only screen and (max-width: 390px) {

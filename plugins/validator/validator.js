@@ -88,7 +88,7 @@ class Validator {
       border: 2px solid green !important;
     } 
     input.error { 
-      border: 2px solid red;
+      border: 2px solid red !important;
     } 
     .validator-error {
       font-size: 12px;

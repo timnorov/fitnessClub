@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
         callBackBtn = document.querySelector('.callback-btn'),
         callBack = document.getElementById('callback_form');
 
-  showPopup.addEventListener('click', () => {
-    freeVisit.style.display = 'block';
+    showPopup.addEventListener('click', () => {
+      freeVisit.style.display = 'block';
   });
 
   callBackBtn.addEventListener('click', () => {
@@ -34,11 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const fixedGift = document.querySelector('.fixed-gift'),
-          gift = document.getElementById('gift');
+        gift = document.getElementById('gift');
   
   //закрываем поп-апы
-  const body = document.querySelector('body');
-
   document.addEventListener('click', (event) => {
     let target = event.target;
     if (target.classList.contains('overlay') || target.classList.contains('close_icon') || target.classList.contains('close-btn') || target.classList.contains('btn-ok1') || target.classList.contains('btn-ok2')) {
@@ -262,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (item.matches('#footer_form') && phone.classList.contains('success') && checkbox.checked === false && checkbox2.checked === false) {
               item.appendChild(statusMessageBad);
               statusMessageBad.textContent = 'Необходимо выбрать один клуб';
-            } else {
+            } else if (!item.matches('#footer_form') && name.classList.contains('success') && phone.classList.contains('success') && checkbox.checked === true){
               statusMessageBad.textContent = '';
               item.appendChild(statusMessageGood);
             statusMessageGood.innerHTML = `  
@@ -308,6 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       phone.classList.remove('success');
                       promoCode.classList.remove('success');
                       statusMessageGood.textContent = successMessage;
+                      totalPrice.innerHTML = '1999';
                       item.reset();
                       setTimeout(() => {
                         statusMessageGood.textContent = '';
@@ -340,6 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       statusMessageGood.textContent = '';
                     } else {
                       statusMessageBad.textContent = errorMessage;
+                      totalPrice.innerHTML = '1999';
                       item.reset();
                       setTimeout(() => {
                         statusMessageBad.textContent = '';
@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
         totalPrice = document.getElementById('price-total');
   let currentPrice;
   
-  if (page === 'index.html') {
+  if (page === '' || page === 'index.html') {
     clubCards.addEventListener('click', (event) => {
       let target = event.target;
       if (target.matches('#m1') && clubMozaika.checked === true || target.matches('#card_leto_mozaika') && oneMonth.checked === true){
@@ -482,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }
     
-  if (page === 'index.html') {
+  if (page === '' || page === 'index.html') {
     promoCode.addEventListener('input', () => {
       if (promoCode.value === 'ТЕЛО2020') {
         totalPrice.innerHTML = currentPrice - Math.ceil(totalPrice.innerText * 0.3) ;

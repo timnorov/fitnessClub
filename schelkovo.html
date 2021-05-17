@@ -76,15 +76,22 @@
       </nav>
       <nav class="popup-menu hidden-large">
         <div class="close-menu-btn">
-          <img src="images/delete.png" alt="" />
+          <img class="close-menu-button" src="images/delete.png" alt="" />
         </div>
         <ul>
-          <li class=""><a href="index.html#clubs">Клубы</a></li>
-          <li class=""><a href="#services">Услуги</a></li>
-          <li class=""><a href="#cards">Клубные карты</a></li>
-          <li class=""><a href="#table">Расписание</a></li>
-          <li class=""><a href="#gallery">Галерея</a></li>
-          <li class=""><a href="#footer">Контакты</a></li>
+          <li class="scroll"><a class="scroll-item" href="#clubs">Клубы</a></li>
+          <li class="scroll">
+            <a class="scroll-item" href="#services">Услуги</a>
+          </li>
+          <li class="scroll">
+            <a class="scroll-item" href="#cards">Клубные карты</a>
+          </li>
+          <li class="scroll">
+            <a class="scroll-item" href="#gallery">Галерея</a>
+          </li>
+          <li class="scroll">
+            <a class="scroll-item" href="#footer">Контакты</a>
+          </li>
         </ul>
       </nav>
       <div class="head-slider">
@@ -379,35 +386,35 @@
             <label for="t1"
               ><span class="long">1 месяц</span><br /><span class="solo"
                 >- соло -</span
-              ><br /><span class="cost">2999<span class="rubl">i</span></span
+              ><br /><span class="cost">1999<span class="rubl">i</span></span
               ><br /><span class="frost">* Без заморозки</span></label
             >
             <input id="t2" type="radio" name="card-type" value="6s" />
             <label for="t2"
               ><span class="long">6 месяцев</span><br /><span class="solo"
                 >- соло -</span
-              ><br /><span class="cost">14990<span class="rubl">i</span></span
+              ><br /><span class="cost">9900<span class="rubl">i</span></span
               ><br /><span class="frost">* Без заморозки</span></label
             >
             <input id="t3" type="radio" name="card-type" value="9s" />
             <label for="t3"
               ><span class="long">9 месяцев</span><br /><span class="solo"
                 >- соло -</span
-              ><br /><span class="cost">21990<span class="rubl">i</span></span
+              ><br /><span class="cost">13900<span class="rubl">i</span></span
               ><br /><span class="frost">* Без заморозки</span></label
             >
             <input id="t4" type="radio" name="card-type" value="12d" />
             <label for="t4"
               ><span class="long">12 месяцев</span><br /><span class="solo"
                 >- дневная -</span
-              ><br /><span class="cost">14990<span class="rubl">i</span></span
+              ><br /><span class="cost">9900<span class="rubl">i</span></span
               ><br /><span class="frost">* 1 месяц заморозки</span></label
             >
             <input id="t5" type="radio" name="card-type" value="12s" />
             <label for="t5"
               ><span class="long">12 месяцев</span><br /><span class="solo"
                 >- соло -</span
-              ><br /><span class="cost">24990<span class="rubl">i</span></span
+              ><br /><span class="cost">19900<span class="rubl">i</span></span
               ><br /><span class="frost">* 1 месяц заморозки</span></label
             >
           </div>
@@ -421,6 +428,7 @@
                 <input
                   name="name"
                   class="name"
+                  id="card_order-name"
                   type="text"
                   required
                   placeholder="Ваше имя..."
@@ -438,8 +446,11 @@
               </p>
               <div class="form-bottom">
                 <p class="personal-data">
-                  <input type="checkbox" required id="card_check" /><label
-                    for="card_check"
+                  <input
+                    type="checkbox"
+                    class="checkbox"
+                    id="card_check"
+                  /><label for="card_check"
                     >Я согласен на обработку персональных данных</label
                   >
                 </p>
@@ -457,7 +468,7 @@
     <section id="gallery">
       <h2>Фотогалерея</h2>
       <div class="gallery-bg">
-        <div class="wrapper">
+        <div class="wrapper gallery-wrapper">
           <div class="gallery-slider">
             <div class="slide gallery-slides gallery-slides-active">
               <img src="images/gallery/photo1.jpg" alt="" />
@@ -590,6 +601,7 @@
               name="name"
               type="text"
               class="name"
+              id="banner-form_name"
               required
               placeholder="Ваше имя..."
             />
@@ -914,6 +926,24 @@
         wrap: ".services-slider",
         slidesToShow: 5,
         infinity: true,
+        responsive: [
+          {
+            breakpoint: 1200,
+            slidesToShow: 4,
+          },
+          {
+            breakpoint: 991,
+            slidesToShow: 3,
+          },
+          {
+            breakpoint: 767,
+            slidesToShow: 2,
+          },
+          {
+            breakpoint: 576,
+            slidesToShow: 1,
+          },
+        ],
       });
 
       carousel.init();
@@ -939,8 +969,8 @@
         phone: /\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}/,
       },
       method: {
-        "free-visit-name": [["notEmpty"], ["pattern", "name"]],
-        "callback_form2-phone": [["notEmpty"], ["pattern", "phone"]],
+        "callback_form1-name": [["notEmpty"], ["pattern", "name"]],
+        "callback_form1-phone": [["notEmpty"], ["pattern", "phone"]],
       },
     });
     const valid3 = new Validator({
@@ -950,8 +980,8 @@
         phone: /\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}/,
       },
       method: {
-        "free-visit-name": [["notEmpty"], ["pattern", "name"]],
-        "callback_form2-phone": [["notEmpty"], ["pattern", "phone"]],
+        "banner-form_name": [["notEmpty"], ["pattern", "name"]],
+        phone: [["notEmpty"], ["pattern", "phone"]],
       },
     });
     const valid4 = new Validator({
@@ -961,8 +991,8 @@
         phone: /\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}/,
       },
       method: {
-        "free-visit-name": [["notEmpty"], ["pattern", "name"]],
-        "callback_form2-phone": [["notEmpty"], ["pattern", "phone"]],
+        "card_order-name": [["notEmpty"], ["pattern", "name"]],
+        "callback_form-phone": [["notEmpty"], ["pattern", "phone"]],
       },
     });
     const valid5 = new Validator({
